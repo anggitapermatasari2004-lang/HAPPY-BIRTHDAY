@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat Ulang Tahun Ica! 🎁</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Lilita+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background: #0a0a1a;
+  }
+
+  /* ===== PAGE 1 ===== */
+  #page1 {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #1a0533 0%, #0d0020 60%, #000 100%);
+    z-index: 10;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  #page1.hide {
+    opacity: 0;
+    transform: scale(1.1);
+    pointer-events: none;
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--dur) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: 0.1; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+
+  .page1-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .ica-gif {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #ff69b4;
+    box-shadow: 0 0 30px #ff69b4aa, 0 0 60px #ff00aa55;
+    animation: floatIca 3s ease-in-out infinite;
+  }
+  @keyframes floatIca {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-18px) rotate(2deg); }
+  }
+
+  .press-text {
+    font-family: 'Lilita One', cursive;
+    font-size: clamp(28px, 6vw, 52px);
+    color: #fff;
+    text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff00aa;
+    animation: shake 0.4s ease-in-out infinite alternate;
+    letter-spacing: 2px;
+  }
+  @keyframes shake {
+    0% { transform: rotate(-2deg) scale(1); }
+    100% { transform: rotate(2deg) scale(1.03); }
+  }
+
+  .start-btn {
+    font-family: 'Boogaloo', cursive;
+    font-size: 32px;
+    padding: 18px 60px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ff69b4, #ff1493, #c71585);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 30px #ff69b480, 0 0 0 0 #ff69b4;
+    animation: pulse 1.5s ease-in-out infinite;
+    transition: transform 0.1s;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    letter-spacing: 3px;
+  }
+  .start-btn:hover { transform: scale(1.08); }
+  .start-btn:active { transform: scale(0.95); }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 30px #ff69b480, 0 0 0 0 #ff69b4aa; }
+    50% { box-shadow: 0 8px 40px #ff1493cc, 0 0 0 14px #ff69b400; }
+  }
+
+  /* ===== PAGE 2 ===== */
+  #page2 {
+    position: fixed;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 30% 40%, #1a0044 0%, #0d0030 50%, #000010 100%);
+    overflow: hidden;
+  }
+  #page2.show { display: flex; }
+
+  .confetti-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 14px;
+    top: -20px;
+    animation: confettiFall linear infinite;
+    border-radius: 2px;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.3; }
+  }
+
+  /* Floating gifts */
+  .floating-gift {
+    position: absolute;
+    pointer-events: none;
+    animation: floatGift linear infinite;
+    z-index: 2;
+  }
+  .floating-gift img {
+    display: block;
+    filter: drop-shadow(0 4px 16px #ff69b488);
+  }
+  @keyframes floatGift {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Pop-out gift */
+  .pop-gift {
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    z-index: 5;
+    animation: popGift 0.7s cubic-bezier(0.17, 0.89, 0.32, 1.5) 0.5s both;
+  }
+  .pop-gift img {
+    width: 130px;
+    filter: drop-shadow(0 8px 24px #ff69b4cc);
+  }
+  @keyframes popGift {
+    0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+    60% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .pop-gift-bounce {
+    animation: bounceGift 1.8s ease-in-out 1.2s infinite;
+  }
+  @keyframes bounceGift {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    30% { transform: translateY(-22px) rotate(-5deg) scale(1.05); }
+    60% { transform: translateY(-8px) rotate(3deg) scale(1.02); }
+  }
+
+  /* Center content */
+  .center-content {
+    z-index: 10;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .ica-page2 {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 0 30px #ff69b4, 0 0 60px #ff00aa55;
+    animation: floatIca2 3.5s ease-in-out infinite;
+  }
+  @keyframes floatIca2 {
+    0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 0 30px #ff69b4, 0 0 60px #ff00aa55; }
+    50% { transform: translateY(-12px) scale(1.03); box-shadow: 0 0 50px #ff69b4, 0 0 80px #ff00aa88; }
+  }
+
+  .hbd-title {
+    font-family: 'Lilita One', cursive;
+    font-size: clamp(36px, 8vw, 80px);
+    background: linear-gradient(135deg, #fff 0%, #ffb3d9 40%, #ff69b4 70%, #ff1493 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px #ff69b488);
+    line-height: 1.1;
+    animation: titlePop 0.6s cubic-bezier(0.17,0.89,0.32,1.5) 0.3s both;
+  }
+  @keyframes titlePop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .hbd-name {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(40px, 9vw, 90px);
+    color: #fff;
+    text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493, 2px 2px 0 #c71585;
+    animation: namePop 0.6s cubic-bezier(0.17,0.89,0.32,1.5) 0.6s both, rainbow 3s linear 1.2s infinite;
+  }
+  @keyframes namePop {
+    0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @keyframes rainbow {
+    0%   { text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b; }
+    20%  { text-shadow: 0 0 20px #ffd93d, 0 0 40px #ffd93d; }
+    40%  { text-shadow: 0 0 20px #6bcb77, 0 0 40px #6bcb77; }
+    60%  { text-shadow: 0 0 20px #4d96ff, 0 0 40px #4d96ff; }
+    80%  { text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff69b4; }
+    100% { text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b; }
+  }
+
+  .hbd-subtitle {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(14px, 3vw, 22px);
+    color: #ffb3d9;
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: fadeInUp 0.6s ease 1s both;
+  }
+  @keyframes fadeInUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  .hbd-gif {
+    width: min(280px, 60vw);
+    border-radius: 16px;
+    box-shadow: 0 0 30px #ff69b488;
+    animation: fadeInUp 0.6s ease 1.2s both;
+  }
+
+  /* Emoji rain */
+  .emoji-rain {
+    position: absolute;
+    font-size: 28px;
+    pointer-events: none;
+    animation: emojiDrop linear infinite;
+    z-index: 3;
+  }
+  @keyframes emojiDrop {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PAGE 1 ===== -->
+<div id="page1">
+  <div class="stars" id="stars"></div>
+  <div class="page1-content">
+    <img class="ica-gif" src="danielitobotto.gif" alt="Ica">
+    <div class="press-text">PENCETTTTT STARTT!!!!!!!!</div>
+    <button class="start-btn" onclick="goToPage2()">⭐ START ⭐</button>
+  </div>
+</div>
+
+<!-- ===== PAGE 2 ===== -->
+<div id="page2">
+  <div class="confetti-container" id="confetti"></div>
+  <div id="giftContainer"></div>
+  <div id="emojiRain"></div>
+
+  <div class="center-content">
+    <img class="ica-page2" src="danielitobotto.gif" alt="Ica">
+    <div class="hbd-title">🎉 SELAMAT ULANG TAHUN 🎉</div>
+    <div class="hbd-name">ICA!! 🎂</div>
+    <div class="hbd-subtitle">Semoga bahagia selalu, sehat, dan semua impiannya tercapai! 🌟💕</div>
+    <img class="hbd-gif" src="happy-birthday-to-you-surprise.gif" alt="Happy Birthday">
+  </div>
+
+  <!-- Pop-out gift (special one) -->
+  <div class="pop-gift" id="popGift">
+    <div class="pop-gift-bounce">
+      <img src="gift.gif" alt="Pop Gift" style="width:130px;">
+    </div>
+  </div>
+</div>
+
+<!-- AUDIO: click sound via Web Audio API + birthday music -->
+<audio id="bgMusic" loop>
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Stars on page 1
+(function() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 3 + 1;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${1+Math.random()*3}s;animation-delay:${Math.random()*3}s`;
+    c.appendChild(s);
+  }
+})();
+
+// Click sound using Web Audio API
+function playClickSound() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(880, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.15);
+  gain.gain.setValueAtTime(0.4, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.2);
+
+  // Second beep
+  setTimeout(() => {
+    const o2 = ctx.createOscillator();
+    const g2 = ctx.createGain();
+    o2.connect(g2); g2.connect(ctx.destination);
+    o2.type = 'sine';
+    o2.frequency.setValueAtTime(1100, ctx.currentTime);
+    o2.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.12);
+    g2.gain.setValueAtTime(0.3, ctx.currentTime);
+    g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    o2.start(ctx.currentTime); o2.stop(ctx.currentTime + 0.15);
+  }, 120);
+}
+
+// Birthday music via Web Audio API
+function playBirthdayMusic() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const notes = [
+    // Happy Birthday melody
+    [392,0.25],[392,0.25],[440,0.5],[392,0.5],[523,0.5],[494,1],
+    [392,0.25],[392,0.25],[440,0.5],[392,0.5],[587,0.5],[523,1],
+    [392,0.25],[392,0.25],[784,0.5],[659,0.5],[523,0.5],[494,0.5],[440,1],
+    [698,0.25],[698,0.25],[659,0.5],[523,0.5],[587,0.5],[523,1.5]
+  ];
+  let t = ctx.currentTime + 0.3;
+  function playNote(freq, dur, time) {
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'triangle';
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0, time);
+    g.gain.linearRampToValueAtTime(0.25, time + 0.04);
+    g.gain.setValueAtTime(0.25, time + dur * 0.7);
+    g.gain.linearRampToValueAtTime(0, time + dur);
+    o.start(time); o.stop(time + dur + 0.05);
+  }
+  notes.forEach(([freq, dur]) => {
+    playNote(freq, dur * 0.42, t);
+    t += dur * 0.44;
+  });
+  // Loop after song ends
+  setTimeout(() => playBirthdayMusic(), (t - ctx.currentTime + 0.5) * 1000);
+}
+
+// Confetti
+function spawnConfetti() {
+  const colors = ['#ff69b4','#ff1493','#ffeb3b','#4fc3f7','#81c784','#ff8a65','#ce93d8','#fff'];
+  const c = document.getElementById('confetti');
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = (6 + Math.random() * 8) + 'px';
+    p.style.height = (8 + Math.random() * 10) + 'px';
+    p.style.animationDuration = (3 + Math.random() * 5) + 's';
+    p.style.animationDelay = (Math.random() * 6) + 's';
+    p.style.transform = `rotate(${Math.random()*360}deg)`;
+    p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    c.appendChild(p);
+  }
+}
+
+// Floating gifts
+function spawnFloatingGifts() {
+  const gifSrcs = ['gift.gif','pepe-christmas.gif','happybirthday-happyquarantine.gif'];
+  const container = document.getElementById('giftContainer');
+  const sizes = [60, 75, 85, 55, 70, 90, 65];
+
+  gifSrcs.forEach((src, gi) => {
+    for (let i = 0; i < 4; i++) {
+      const div = document.createElement('div');
+      div.className = 'floating-gift';
+      const size = sizes[Math.floor(Math.random() * sizes.length)];
+      const left = 3 + Math.random() * 90;
+      const dur = 7 + Math.random() * 8;
+      const delay = (gi * 2 + i * 3) + Math.random() * 3;
+      div.style.left = left + 'vw';
+      div.style.animationDuration = dur + 's';
+      div.style.animationDelay = delay + 's';
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.width = size + 'px';
+      img.style.borderRadius = '10px';
+      div.appendChild(img);
+      container.appendChild(div);
+    }
+  });
+}
+
+// Emoji rain
+function spawnEmojiRain() {
+  const emojis = ['🎁','🎉','🎂','🌟','💕','✨','🎈','🎊','💖','🥳'];
+  const c = document.getElementById('emojiRain');
+  for (let i = 0; i < 25; i++) {
+    const e = document.createElement('div');
+    e.className = 'emoji-rain';
+    e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    e.style.left = Math.random() * 100 + 'vw';
+    e.style.fontSize = (20 + Math.random() * 22) + 'px';
+    e.style.animationDuration = (5 + Math.random() * 7) + 's';
+    e.style.animationDelay = (Math.random() * 8) + 's';
+    c.appendChild(e);
+  }
+}
+
+function goToPage2() {
+  playClickSound();
+  document.getElementById('page1').classList.add('hide');
+  setTimeout(() => {
+    document.getElementById('page1').style.display = 'none';
+    const p2 = document.getElementById('page2');
+    p2.classList.add('show');
+    spawnConfetti();
+    spawnFloatingGifts();
+    spawnEmojiRain();
+    playBirthdayMusic();
+  }, 600);
+}
+</script>
+</body>
+</html>
